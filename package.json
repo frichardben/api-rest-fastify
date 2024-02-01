@@ -1,9 +1,12 @@
 {
   "dependencies": {
-    "fastify": "^4.23.2"
+    "fastify": "^4.23.2",
+    "knex": "^2.5.1",
+    "sqlite3": "^5.1.6"
   },
   "scripts": {
     "dev": "tsx src/server.ts",
+    "knex": "node --no-warnings --loader tsx ./node_modules/.bin/knex",
     "lint": "eslint src --ext .ts --fix"
   },
   "devDependencies": {
