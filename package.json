@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "dotenv": "^16.4.1",
     "fastify": "^4.23.2",
     "knex": "^2.5.1",
     "sqlite3": "^5.1.6"
