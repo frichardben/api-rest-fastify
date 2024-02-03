@@ -1,18 +1,17 @@
 import fastify from 'fastify'
+import crypto from 'node:crypto'
 import { knex } from './database'
 
 const app = fastify()
 
 app.get('/transactions', async () => {
-  const transactions = await knex('transactions').insert({
-    id: crypto.randomUUID(),
-    title: 'Transaction test',
-    amount: 100,
-  })
+  const transactions = await knex('transactions')
+    .where('amount', 1000)
+    .select('*')
 
   return transactions
 })
 
 app.listen({ port: 3333 }).then(() => {
-  console.log('Server listening on port 3000')
+  console.log('Server listening on port 3333')
 })
