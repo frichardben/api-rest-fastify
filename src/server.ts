@@ -4,7 +4,7 @@ import cookie from '@fastify/cookie'
 import { env } from './env'
 import { transactionsRoutes } from './routes/transactions'
 
-const app = fastify()
+export const app = fastify()
 
 app.register(cookie)
 app.register(transactionsRoutes, {
