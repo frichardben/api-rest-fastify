@@ -110,5 +110,21 @@ describe('Transactions', () => {
        }])
 
     })
+
+    it('should not be able to access unauthorized data.', async () => {
+        await request(app.server)
+        .post('/transactions')
+        .send({
+            title: 'New Transaction',
+            amount: 1000,
+            type: 'credit'
+        })
+        .expect(201)
+
+        await request(app.server)
+        .get('/transactions')
+        .send()
+        .expect(401)
+    })
  
 })
