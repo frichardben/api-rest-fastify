@@ -17,7 +17,7 @@ describe('Transactions', () => {
         execSync('npm run knex migrate:latest')
     })
 
-    it('should be abled to create a new transaction', async () => {
+    it('should be able to create a new transaction', async () => {
         await request(app.server).post('/transactions').send({
             title: 'New Transaction',
             amount: 1000,
@@ -25,7 +25,7 @@ describe('Transactions', () => {
         }).expect(201)
     })
 
-    it('should be abled to list all transactions', async () => {
+    it('should be able to list all the transactions.', async () => {
         const createTransactionResponse =  await request(app.server).post('/transactions').send({
             title: 'New Transaction',
             amount: 1000,
@@ -48,4 +48,39 @@ describe('Transactions', () => {
        ])
 
     })
+
+    it('should be able to retrieve a specific transaction by its unique identifier.', async () => {
+        const createTransactionResponse = await request(app.server)
+            .post('/transactions')
+            .send({
+            title: 'New Transaction',
+            amount: 1000,
+            type: 'credit'
+        })
+
+        const cookies = createTransactionResponse.get('Set-Cookie')
+
+       const listTransactionsResponse = await request(app.server)
+        .get('/transactions')
+        .set('Cookie', cookies)
+
+        const transactionId = listTransactionsResponse.body.transactions[0].id
+        
+
+        const getTransactionResponse = await request(app.server)
+        .get(`/transactions/${transactionId}`)
+        .set('Cookie', cookies)
+
+    
+       expect(getTransactionResponse.body.transaction).toEqual(
+        expect.objectContaining({
+            title: 'New Transaction',
+            amount: 1000
+        })
+       )
+
+    })
+
+  
+ 
 })
